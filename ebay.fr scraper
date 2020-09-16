@@ -1,0 +1,26 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import pandas as pd
+
+PATH = "C:\Program Files (x86)\chromedriver.exe"
+driver = webdriver.Chrome(PATH)
+#driver = webdriver.Chrome("chromedriverpath.exe")
+
+val = input("Enter the Page Link: ")
+driver.get(val)
+name = driver.find_elements_by_class_name('s-item__link')
+Name_list = []
+for n in range(len(name)):
+   Name_list.append(name[n].text)
+price = driver.find_elements_by_class_name('s-item__price')
+Price_list = []
+for p in range(len(name)):
+   Price_list.append(price[p].text)
+title2 = driver.find_elements_by_class_name('s-item__subtitle')
+sub_title = []
+for s in range(len(name)):
+   sub_title.append(title2[s].text)
+
+df = pd.DataFrame({'Product Name':Name_list,"Prices":Price_list,"Info":sub_title})
+df.to_csv('ebay_scrapper.csv', index=False, encoding='utf-8')
+
